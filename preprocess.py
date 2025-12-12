@@ -77,7 +77,7 @@ def preprocess_pipeline(df, config=None):
     params = {
         'volume': df['volume'].values,
         'potential': df['potential'].values,
-        'H_plus': np.power(10, - (7 - df['potential']/59.16)),  # Convert mV to approximate [H+] via pH = 7 - (mV/59.16)
+        ### 'H_plus': np.power(10, - (7 - df['potential']/59.16)),  # Convert mV to approximate [H+] via pH = 7 - (mV/59.16)
     }
     params.update(config)  # Merge with user params
 
