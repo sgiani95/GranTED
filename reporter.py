@@ -95,10 +95,10 @@ def export_to_csv(results: Dict[str, Any], params: Dict[str, Any], g1_data: np.n
     df_g1 = pd.DataFrame({'Volume (mL)': volume, 'WeakAcid_G1': g1_data})
     
     filepath = Path(output_dir) / filename
-    with pd.ExcelWriter(filepath, engine='openpyxl') as writer:
-        df_metrics.to_excel(writer, sheet_name='Metrics', index=False)
-        df_g1.to_excel(writer, sheet_name='G1_Data', index=False)
-    print(f"CSV/Excel report (with G1 sheet) saved to {filepath}")
+    # with pd.ExcelWriter(filepath, engine='openpyxl') as writer:
+    #     df_metrics.to_excel(writer, sheet_name='Metrics', index=False)
+    #     df_g1.to_excel(writer, sheet_name='G1_Data', index=False)
+    # print(f"CSV/Excel report (with G1 sheet) saved to {filepath}")
 
 def export_to_pdf(results: Dict[str, Any], params: Dict[str, Any], plot_paths: List[str], output_dir: str = 'output', filename: str = 'gran_report.pdf') -> None:
     """
