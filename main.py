@@ -1,19 +1,17 @@
-# main.py: Entry Point for GranTED - Orchestrates Workflow
+# main.py: Entry Point for GranTED - Orchestrates Full Workflow
 
 import argparse
 import sys
 from pathlib import Path
+import json
 
-# Local imports (assume modules in same directory)
+# Local imports
 from data_io import DataLoader
 from preprocess import preprocess_pipeline
-# Placeholder imports (implement as modules are coded)
-# from gran_functions import compute_gran_functions
-# from analyzer import analyze_titration
-# from visualizer import plot_results
-# from reporter import generate_report
-# from learning import optimize_parameters
-# from gui_cli import run_gui
+from gran_functions import compute_gran_functions
+from analyzer import analyze_gran
+from visualizer import visualize_all
+from reporter import generate_report
 
 def main():
     parser = argparse.ArgumentParser(description="GranTED Titration Analysis")
@@ -30,29 +28,31 @@ def main():
     if df is None:
         sys.exit(1)
 
-    # Step 2: Preprocess
-    config_overrides = {'V': args.V, 'C_B': args.C_B} if args.V or args.C_B else {}
+    # Step 2: Preprocess (load config)
+    config_overrides = {}
+    if args.V is not None:
+        config_overrides['V'] = args.V
+    if args.C_B is not None:
+        config_overrides['C_B'] = args.C_B
+    
     df_processed, params = preprocess_pipeline(df, config_overrides)
     print("Preprocessed data ready.")
 
-    # Step 3: Gran Functions (Placeholder - implement in gran_functions.py)
-    # gran_data = compute_gran_functions(df_processed, params)
+    # Step 3: Compute Gran functions
+    gran_results = compute_gran_functions(df_processed, params)
+    print("Gran functions computed.")
 
-    # Step 4: Analysis (Placeholder - implement in analyzer.py)
-    # results = analyze_titration(gran_data, params)
-    # print("Analysis complete:", results)
+    # Step 4: Analyze (interval ID and k optimization)
+    analysis_results = analyze_gran(df_processed, params)
+    print("Analysis complete.")
 
-    # Step 5: Visualization (Placeholder - implement in visualizer.py)
-    # plot_results(df_processed, results, params, output_dir=args.output_dir)
+    # Step 5: Visualize
+    visualize_all(df_processed, params, analysis_results, args.output_dir)
+    print("Visualizations generated.")
 
-    # Step 6: Reporting (Placeholder - implement in reporter.py)
-    # report_path = generate_report(results, params, output_dir=args.output_dir)
-    # print(f"Report saved: {report_path}")
-
-    # Step 7: Learning/Optimization (Placeholder - implement in learning.py)
-    # optimized_params = optimize_parameters(params, results) if args.config_file else None
-
-    print("GranTED workflow complete. Check output directory for results.")
+    # Step 6: Report
+    generate_report(df_processed, params, analysis_results, args.output_dir)
+    print(f"Full workflow complete. Results in {args.output_dir}")
 
 if __name__ == "__main__":
     main()

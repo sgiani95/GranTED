@@ -1,8 +1,20 @@
+
 # preprocess.py: Module 2 for GranTED - Data Preprocessing and Parameter Setup
+
+#######################
+# Core Functionality: #
+#######################
+#
+# Parameter Configuration: Loads and validates user parameters (e.g., V=25 mL, C_B=0.1 M, titration_type='acid-base', strength='weak')
+# via hybrid input (CLI, JSON file, or interactive prompts), ensuring defaults for monoprotic acid-base titrations.
+#
+# Data Preparation: Converts raw DataFrame (from data_io.py) to NumPy arrays (volume, potential, [H⁺] via mV-to-pH: pH = 7 - (potential/59.16)),
+# merging params for downstream use.
+#
+# Output: Returns the raw DataFrame and a params dict for gran_functions.py/analyzer.py; no transformation (e.g., no smoothing/type detection yet—deferred).
 
 import numpy as np
 import json
-import argparse
 
 def get_config_from_cli_or_file_or_prompt(config_file=None, args=None):
     """

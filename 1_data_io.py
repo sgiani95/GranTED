@@ -1,13 +1,22 @@
+
 # data_io.py: Module 1 for GranTED - Data Input and Validation
 
+#######################
+# Core Functionality: #
+#######################
+#
+# Loading: Supports single files (dat/txt/csv/xlsx) or batch directories, parsing columns ('volume', 'potential' in mV).
+#
+# Validation: Ensures monotonic increasing volumes and potential in -420 to 420 mV (pH 0–14 equivalent); flags issues but doesn't halt.
+# 
+# Output: Returns clean DataFrame(s) for preprocess.py; handles errors gracefully (e.g., missing files, wrong format).
+
 import pandas as pd
-import numpy as np
 from pathlib import Path
-import os
 
 class DataLoader:
     def __init__(self, default_format='dat'):
-        self.default_format = default_format  # e.g., 'dat', 'csv', 'xlsx'
+        self.default_format = default_format # e.g., 'dat', 'csv', 'xlsx'
         self.supported_formats = ['dat', 'txt', 'csv', 'xlsx']
 
     def load_single_file(self, file_path, columns=['volume', 'potential']):
@@ -26,7 +35,7 @@ class DataLoader:
 
         try:
             if path.suffix in ['.dat', '.txt', '.csv']:
-                df = pd.read_csv(file_path, delim_whitespace=True, names=columns, header=None)
+                df = pd.read_csv(file_path, sep='\s+', names=columns, header=None)
             elif path.suffix == '.xlsx':
                 df = pd.read_excel(file_path, names=columns, header=None)
             else:
@@ -98,5 +107,5 @@ if __name__ == "__main__":
         loader.validate_data(df)
 
     # Batch example
-    ### batch = loader.load_batch_files('./titrations/')
-    ### print("Batch files:", list(batch.keys()))
+    # batch = loader.load_batch_files('./titrations/')
+    # print("Batch files:", list(batch.keys()))
