@@ -1,7 +1,15 @@
 Parameter,Value
 V (mL),25.0
 C_B (M),0.1
-Best k5,5.916634773345772
-Max R²,0.9993009912795809
-Interval Start,15.0
-Interval End,20.0
+Raw Zone k5,0.0
+Raw Zone R²,0.9996668444616087
+Raw Zone V_eq (mL),4.320520461995529
+Raw Zone Num Points,15.0
+Opt Zone k5,5.340752850307042
+Opt Zone R²,0.9996508607115284
+Opt Zone V_eq (mL),4.324171005462975
+Opt Zone Num Points,15.0
+Raw Interval Start,17.0
+Raw Interval End,32.0
+Opt Interval Start,16.0
+Opt Interval End,31.0
